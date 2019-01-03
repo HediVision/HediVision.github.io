@@ -1,24 +1,107 @@
----
-layout: none
-search: exclude
----
-
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {% for post in site.posts %}
-  {% unless post.search == "exclude" %}
+  
+  
   <url>
-    <loc>{{site.url}}{{post.url}}</loc>
+    <loc>http://hedivision.github.io/structure-core.html</loc>
   </url>
-  {% endunless %}
-  {% endfor %}
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/DVS.html</loc>
+  </url>
+  
+  
 
 
-  {% for page in site.pages %}
-  {% unless page.search == "exclude" %}
+  
+  
+  
+  
   <url>
-    <loc>{{site.url}}{{ page.url}}</loc>
+    <loc>http://hedivision.github.io/CNN.html</loc>
   </url>
-  {% endunless %}
-  {% endfor %}
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/Logistic.html</loc>
+  </url>
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/Pinhole.html</loc>
+  </url>
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/computervision.html</loc>
+  </url>
+  
+  
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/index.html</loc>
+  </url>
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/Introml.html</loc>
+  </url>
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/machinelearning.html</loc>
+  </url>
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/news.html</loc>
+  </url>
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/news_archive.html</loc>
+  </url>
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/opticalflow.html</loc>
+  </url>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <url>
+    <loc>http://hedivision.github.io/assets/css/style.css</loc>
+  </url>
+  
+  
 </urlset>
