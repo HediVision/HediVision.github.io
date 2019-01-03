@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content=" optical flow, Horn&Schunk, Horn-Schunk, Lucas–Kanade, LKT, Farneback, python, OpenCV">
+<title>Optical Flow | HediVision</title>
+<link rel="stylesheet" href="css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+<link rel="stylesheet" href="css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="css/customstyles.css">
+<link rel="stylesheet" href="css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="js/jquery.navgoco.min.js"></script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="js/toc.js"></script>
+<script src="js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="documentation-theme-jekyll" href="http://localhost:4000/feed.xml">
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="index.html">&nbsp;<span class="projectTitle"> HediVision</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://github.com/HediVision" target="_blank">GitHub</a></li>
+                
+                
+                
+                <li><a href="news">News</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li><a href="https://github.com/HediVision" target="_blank">Me</a></li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+			<li>
+
+
+
+  <a class="email" title="Submit feedback" href="#" onclick="javascript:window.location='mailto:hedayati.moh@gmail.com?subject=HediVision feedback&body=I have some feedback about the Optical Flow page: ' + window.location.href;"><i class="fa fa-envelope-o"></i> Feedback</a>
+
+</li>
+
+		
+                <!--comment out this block if you want to hide search-->
+                <li>
+                    <!--start search-->
+                    <div id="search-demo-container">
+                        <input type="text" id="search-input" placeholder="search...">
+                        <ul id="results-container"></ul>
+                    </div>
+                    <script src="js/jekyll-search.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                            SimpleJekyllSearch.init({
+                                searchInput: document.getElementById('search-input'),
+                                resultsContainer: document.getElementById('results-container'),
+                                dataSource: 'search.json',
+                                searchResultTemplate: '<li><a href="{url}" title="Optical Flow">{title}</a></li>',
+                    noResultsText: 'No results found.',
+                            limit: 10,
+                            fuzzy: true,
+                    })
+                    </script>
+                    <!--end search-->
+                </li>
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+<ul id="mysidebar" class="nav">
+  <li class="sidebarTitle"> </li>
+  
+  
+  
+      
+  
+  <li>
+      <a href="#">Overview</a>
+      <ul>
+          
+          
+          
+          <li><a href="index.html">Home</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="computervision.html">Computer Vision</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="machinelearning.html">Machine Learning</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="CNN.html">Convolutional Neural Network</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+      
+      <!-- if you aren't using the accordion, uncomment this block:
+         <p class="external">
+             <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+         </p>
+         -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <div class="post-header">
+   <h1 class="post-title-main">Optical Flow</h1>
+</div>
+
+
+
+<div class="post-content">
+
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = $(this.getAttribute('href'))
+    , scroll_target = target.offset().top
+
+  $(window).scrollTop(scroll_target - 10);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc"></div>
+
+    
+
+
+    
+
+   <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<p><br />
+A bit of theory always helps but if you want you can jump to my <a href="https://github.com/HediVision/OpticalFlow">Github</a> page to see the step by step implementation of the optical flow models that I am discussing here.</p>
+
+<h3 id="introduction">Introduction</h3>
+
+<p>Motion information is one of the most valuable cues of the visual system and it is the foundation of many computer vision applications. These include visual navigation, segmentation, video compression, object tracking, and behavior analysis. Motion information in the time-ordered images sequence is extracted from estimating the displacements of intensity patterns which is known as Optical flow.</p>
+
+<p>The basic hypothesis in estimating optical flow is brightness constancy which originated from the physiological definition of Perceptual Constancy.  The brightness constancy states that the intensity of moving pixels remains constant in a short duration. Let <script type="math/tex">I(x,y,t)</script> be the intensity for the pixel <script type="math/tex">(x,y)</script> at time <script type="math/tex">t</script> then,</p>
+
+<script type="math/tex; mode=display">I(x,y,t)=I(x+\Delta x,y+\Delta y,t+\Delta t)
+    \label{eq:k1}
+    \tag{1}</script>
+
+<p>with applying Taylor expansion on the left side of Eq. \eqref{eq:k1} the optical flow constrain equation drives as,</p>
+
+<script type="math/tex; mode=display">I_xu+I_yv+I_t=0
+\label{eq:constrain}
+\tag{2}</script>
+
+<p>where <script type="math/tex">I_x</script> and <script type="math/tex">I_y</script> is the spatial intensity gradient and <script type="math/tex">I_t</script> is temporal gradient and <script type="math/tex">(u,v)</script> is velocity vector.</p>
+
+<h3 id="horn-and-schunk">Horn and Schunk</h3>
+
+<p>The brightness constancy constraint alone is inadequate to solve the ambiguity of motion flow. With assuming motion field varies smoothly over frames (smoothness constraint), Horn and Schunk proposed first variational optical flow estimation. Horn and Schunk formulated motion flow as a global energy function. This energy function should be minimized with respect to two error terms:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>1.</strong></td>
+      <td><strong>Data Error:</strong></td>
+      <td><script type="math/tex">\varepsilon_{d}=\sum (u.I_x+v.I_y+I_t)^2</script></td>
+    </tr>
+    <tr>
+      <td><strong>2.</strong></td>
+      <td><strong>Smoothness Error:</strong></td>
+      <td><script type="math/tex">\varepsilon_{s}=\sum(u_{x+1,y}-u_{xy})^2+(u_{x,y+1}-u_{xy})^2+ (v_{x+1,y}-v_{xy})^2+(v_{x,y+1}-v_{xy})^2</script></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>So that, the total error is equal to,</p>
+
+<script type="math/tex; mode=display">\varepsilon_{t}=\varepsilon_{d}+\lambda \varepsilon_{s}\\
+\label{eq:e_total}
+\tag{3}</script>
+
+<p>Minimise the Eq. \eqref{eq:e_total}  and with some variational calculus knowledge, we can drive the two main optical flow equations as,</p>
+
+<script type="math/tex; mode=display">\begin{array}{l}
+u=u_{av}-I_x\frac{I_xu_{av}+I_yv_{av}+f_t}{\lambda+I_x^2+I_y^2}\\
+
+v=v_{av}-I_y\frac{I_xu_{av}+I_yv_{av}+f_t}{\lambda+I_x^2+I_y^2}
+\end{array}
+\label{eq:hs_final}
+\tag{4}</script>
+
+<p>where <script type="math/tex">u_{av}</script> and <script type="math/tex">v_{av}</script> are the average flow of some neighbours around pixle <script type="math/tex">(x,y)</script>. The optimal <script type="math/tex">(u,v)</script> is approximated by iterativly  estimate  <script type="math/tex">u</script> and <script type="math/tex">v</script> using Eq. \eqref{eq:hs_final} </p>
+
+<hr />
+
+<p><strong>You can check my step by step implementation of Horn and Schunkon model in <a href="https://github.com/HediVision/OpticalFlow/tree/master/HornSchunck">here</a>.</strong></p>
+
+<hr />
+
+<h3 id="lucaskanade-method">Lucas–Kanade Method</h3>
+
+<p>Horn and Schunck assume the global smoothness constraint to solve the motion ambiguity, in contrast Lucas–Kanade  used local smoothness constraint. 
+Lucas–Kanade assumed  the motion is constant  at some neighbourhood around pixles and solves the optical flow equations for all the pixels in that neighbourhood. Thus the motion vector <script type="math/tex">(u,v)</script> can be estimated by finding a solution  that minimizes the sum of squared errors,</p>
+
+<script type="math/tex; mode=display">min\sum_{i=1}^{n}(I_{ix}u+I_{iy}v+I_t)
+   \label{eq:klt}
+\tag{5}</script>
+
+<p><script type="math/tex">n</script> is the number of pixel neighbourhoods. For <script type="math/tex">3\times3</script> neighbourhood <script type="math/tex">n=9</script>, thus we have <script type="math/tex">9</script> equations and <script type="math/tex">2</script> unknown <script type="math/tex">(u,v)</script> (over-determined system) and <script type="math/tex">u</script> and <script type="math/tex">v</script> is estimated by,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\Big[\begin{array}{l}
+		  u
+		  \\
+		  v
+		  \end{array}\Big]=
+		  \Bigg[\begin{array}{ll}
+		  \sum_i I^2_{ix} & \sum_i I^2_{ix}I^2_{iy}
+		  \\
+		  \sum_i I^2_{ix}I^2_{iy} & \sum_i I^2_{iy}
+		  \end{array}\Bigg]^{-1}
+		  \Bigg[\begin{array}{l}
+		  -\sum_i I^2_{ix}I^2_{it}
+		  \\
+		  -\sum_i I^2_{iy}I^2_{it}
+		  \end{array}\Bigg]
+		  \label{eq:e_terms}
+\tag{6} %]]></script>
+
+<hr />
+
+<p><strong>You can check my step by step implementation of Lucas–Kanade Method model in <a href="https://github.com/HediVision/OpticalFlow/tree/master/LK">here</a>.</strong></p>
+
+<hr />
+
+<h3 id="farneback">Farneback</h3>
+
+<p>Farneback used second-degree polynomial expansion to calculate motion. Farnback model contains two main steps:</p>
+
+<p><strong>1- Approximating the neighbourhood around each pixel as a quadric function using polynomial expansion</strong></p>
+
+<p><strong>2- Use the expansion coefficients to estimate the displacement of pixels</strong></p>
+
+<p>Polynomial expansion approximating the neighbourhood around a pixel by a quadratic equation as,</p>
+
+<script type="math/tex; mode=display">f(X)=X^TAX+b^T+c,
+\label{eq:poly}
+\tag{7}</script>
+
+<p>This approximation achieved by applying an operation called  <strong>Normalized convolution</strong> using basis of <script type="math/tex">\{1, x, y, x^2 y^2, xy\}</script> as:</p>
+
+<script type="math/tex; mode=display">r=(B*W_aW_cB)^{-1}B*W_aW_cf
+\label{eq:norm_conv}
+\tag{8}</script>
+
+<p>Where <script type="math/tex">B= \{1, x, y, x^2 y^2, xy\}</script> is the basis, <script type="math/tex">a</script> is an applicability matrix, <script type="math/tex">W_{a}</script> is diagonal of <script type="math/tex">a</script>,  <script type="math/tex">c</script> is a certainty matrix and <script type="math/tex">W_{c}</script> is diagonal of <script type="math/tex">c</script></p>
+
+<p>putting Eq. \eqref{eq:norm_conv}  and Eq. \eqref{eq:poly}  together we can represent the quadratic equation as a form of tensor by,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f=\begin{bmatrix}x& y
+\end{bmatrix} A
+\begin{bmatrix}
+x\\ 
+y
+\end{bmatrix}+
+b^T
+\begin{bmatrix}
+x\\ 
+y
+\end{bmatrix}+c %]]></script>
+
+<p>where</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+X=\begin{bmatrix}
+x\\ 
+y
+\end{bmatrix},
+A=\begin{bmatrix}
+r_4& \frac{r_6}{2}\\ 
+\frac{r_6}{2}&r_5
+\end{bmatrix}
+b=\begin{bmatrix}
+r_2\\ 
+r_3
+\end{bmatrix},
+c=r_1
+\label{eq:tensor}
+\tag{9} %]]></script>
+
+<p>where <script type="math/tex">r_1</script> to <script type="math/tex">r_6</script> are expansion coefficient.</p>
+
+<p>Based on brightness constancy,  the displacement vector <script type="math/tex">d</script> can be found by solving the following equation,</p>
+
+<script type="math/tex; mode=display">f_2(X)=f_1(X-d)</script>
+
+<p>which result in:</p>
+
+<script type="math/tex; mode=display">\begin{array}{l}
+A_2=A_1\\
+b_2=b_1-2A_1d\\
+c_2=d^TA_1d-b_1^Td+c_1,
+\end{array}
+\label{eq:d}
+\tag{10}</script>
+
+<p>so that, <script type="math/tex">d</script> is then estimated by</p>
+
+<script type="math/tex; mode=display">d=-\frac{1}{2}A_1^{-1}(b_2-b_1).
+\label{eq:d2}
+\tag{11}</script>
+
+<p>and this result can improved iteratively by,</p>
+
+<script type="math/tex; mode=display">\begin{array}{l}
+\bar{b}_2=b_1-2A_1\bar{d}\\
+d=-\frac{1}{2}A_1^{-1}(b_2+\bar{b}_2-b_1).
+\end{array}
+\label{eq:iterative}
+\tag{12}</script>
+
+<hr />
+
+<p><strong>You can check my step by step implementation of Farneback  Method model in <a href="https://github.com/HediVision/OpticalFlow/tree/master/Farneback">here</a>.</strong></p>
+
+<hr />
+
+
+
+    <div class="tags">
+        
+    </div>
+
+
+
+
+</div>
+
+<hr class="shaded"/>
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+               &copy;2019 HediVision. All rights reserved to beloved mantis shrimp. <br />
+<p><img src="images/company_logo.png" alt="Company logo"/></p>
+                </div>
+            </div>
+</footer>
+
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+</html>

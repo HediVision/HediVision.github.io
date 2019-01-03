@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content="Computer VisionTheory,  opt, geo">
+<title>Pinhole Camera Model | HediVision</title>
+<link rel="stylesheet" href="css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+<link rel="stylesheet" href="css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="css/customstyles.css">
+<link rel="stylesheet" href="css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="js/jquery.navgoco.min.js"></script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="js/toc.js"></script>
+<script src="js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="documentation-theme-jekyll" href="http://localhost:4000/feed.xml">
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="index.html">&nbsp;<span class="projectTitle"> HediVision</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://github.com/HediVision" target="_blank">GitHub</a></li>
+                
+                
+                
+                <li><a href="news">News</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li><a href="https://github.com/HediVision" target="_blank">Me</a></li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+			<li>
+
+
+
+  <a class="email" title="Submit feedback" href="#" onclick="javascript:window.location='mailto:hedayati.moh@gmail.com?subject=HediVision feedback&body=I have some feedback about the Pinhole Camera Model page: ' + window.location.href;"><i class="fa fa-envelope-o"></i> Feedback</a>
+
+</li>
+
+		
+                <!--comment out this block if you want to hide search-->
+                <li>
+                    <!--start search-->
+                    <div id="search-demo-container">
+                        <input type="text" id="search-input" placeholder="search...">
+                        <ul id="results-container"></ul>
+                    </div>
+                    <script src="js/jekyll-search.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                            SimpleJekyllSearch.init({
+                                searchInput: document.getElementById('search-input'),
+                                resultsContainer: document.getElementById('results-container'),
+                                dataSource: 'search.json',
+                                searchResultTemplate: '<li><a href="{url}" title="Pinhole Camera Model">{title}</a></li>',
+                    noResultsText: 'No results found.',
+                            limit: 10,
+                            fuzzy: true,
+                    })
+                    </script>
+                    <!--end search-->
+                </li>
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+<ul id="mysidebar" class="nav">
+  <li class="sidebarTitle"> </li>
+  
+  
+  
+      
+  
+  <li>
+      <a href="#">Overview</a>
+      <ul>
+          
+          
+          
+          <li><a href="index.html">Home</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="computervision.html">Computer Vision</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="machinelearning.html">Machine Learning</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="CNN.html">Convolutional Neural Network</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+      
+      <!-- if you aren't using the accordion, uncomment this block:
+         <p class="external">
+             <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+         </p>
+         -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Pinhole Camera Model</h1>
+        <p class="post-meta"><time datetime="" itemprop="datePublished"></time> /
+            
+            
+            
+            
+            
+            
+            
+
+        </p>
+
+
+    </header>
+
+    <div class="post-content" itemprop="articleBody">
+
+        
+        <div class="summary"></div>
+        
+
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<p>The simplest camera model is pinhole model which decribes the mathematical relationship of the projection of points in 3d-space onto a image plane. Let the centre of projection be the origin of a Euclidean coordinate system, and the plane   <script type="math/tex">Z = f</script>, which is called the <em>image plane</em> or <em>focal plane</em>.  Under pinhole camera model, a point in space with coordinates   <script type="math/tex">(X, Y, Z)^T</script> is mapped to the point on the image plane   <script type="math/tex">(\frac{fX}{Z}, \frac{fY}{Z}, f)^T</script>  using triangles as shown in <a href="#figure1">Figure 1</a>.
+Ignoring the final image coordinate, the central projection mapping from 3d world space to 2d image coordinates is,</p>
+
+<script type="math/tex; mode=display">(X, Y, Z)^T\longrightarrow(\frac{fX}{Z},\frac{fY}{Z})^T 
+    \label{mapping}
+    \tag{1}</script>
+
+<p><a name="figure1"></a> <img src="/images/pn.jpg" alt="figure 1" />
+<strong>Figure 1.</strong> Pinhole camera geometry. The centre of projection is called the <em>camera centre</em> or the <em>optical centre</em>. The line from the camera centre perpendicular to the image plane is called the <em>principal axis</em> or <em>principal ray</em>. The point where the principal axis
+meets the image plane is called the <em>principal point</em>. The plane through the camera
+centre parallel to the image plane is called the <em>principal plane of the camera</em>. <strong>C</strong> is the camera centre and <strong>p</strong> the principal point. The camera	centre is here placed at the coordinate origin <a href="#ref1">[Hartley and Zisserman, 2003]</a>.</p>
+
+<p>Assuming the world and image points	are represented in <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">homogeneous</a> coordinates, then central projection can simply expressed as a linear mapping between their homogeneous coordinates in terms of matrix multiplication by,</p>
+
+<p><script type="math/tex">% <![CDATA[
+\begin{bmatrix}
+		fX\\fY\\Z\\
+		\end{bmatrix}=		
+		\begin{bmatrix}
+		f&0&0&0\\0&f&0&0\\0&0&1&0\\		
+		\end{bmatrix}
+		\begin{bmatrix}
+		X_{cam}\\Y_{cam}\\Z_{cam}\\1\\
+		\end{bmatrix}
+    \label{eq:k1}
+    \tag{2} %]]></script>
+<span style="font-size:larger;"><strong>Principal point offset:</strong></span> In theory the origin of coordinates in the image plane  assumed to be at the principal point. This may not be true in practice, hence, the Eq. \eqref{eq:k1}  is express as,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix}
+	fX+ Zp_x\\fY+ Zp_y\\~Z\\		
+	\end{bmatrix}=
+	\begin{bmatrix}
+	f_x&0&p_x&0\\0&f_y&p_y&0\\0&0&1&0\\		
+	\end{bmatrix}
+	\begin{bmatrix}
+	X_{cam}\\Y_{cam}\\Z_{cam}\\1\\
+	\end{bmatrix}
+	\label{eq:k2}
+  \tag{3} %]]></script>
+
+<p>First matrix in the right side of Eq. \eqref{eq:k2}  called camera <em>calibration matrix</em>, usually expressed by <script type="math/tex">K</script>. For added generality,  the calibration matrix
+can be express as,</p>
+
+<p><script type="math/tex">% <![CDATA[
+K=
+		\begin{bmatrix}
+		\alpha_x&s&p_x\\0&\alpha_y&p_y\\0&0&1\\		
+		\end{bmatrix}
+		\label{eq:K}
+    \tag{4} %]]></script>
+where  <script type="math/tex">s</script>  is referred to as the skew parameter which is zero for most  of the cameras.   <script type="math/tex">f_x</script>  and  <script type="math/tex">f_y</script>  where <script type="math/tex">alpha_x = fm_x</script> and <script type="math/tex">\alpha_y = fm_y</script> represent the focal length of the camera in terms of pixel dimensions in the <em>x-axis</em>  and the <em>y-axis</em> respectively, and  <script type="math/tex">(p_x,p_y)</script>  is coordinate of the principal point.</p>
+
+<p><a name="figure2"></a> <img src="/images/rt.jpg" alt="Figure 2" />
+<span style="font-size:12pt;"><strong>Figure 2:</strong> The Euclidean transformation between the world and camera coordinate frames <a href="#ref1">[Hartley and Zisserman, 2003]</a>.</span></p>
+
+<p><span style="font-size:larger;"><strong>Camera rotation and translation:</strong></span> The Subscripts  <em>cam</em> in above equations is to emphasize  that the points are represented as <em>camera coordinate frame</em>. In general, points in space is determined by the <em>world coordinate frame</em>.
+The camera coordinate and world coordinate frames are related by <em>rotation</em> and <em>translation</em>. As it is shown in <a href="#figure2">Figure 2</a>, if  <script type="math/tex">\textbf{X}=(X,Y,Z,1)^T</script>  is the coordinate of the point in the world coordinates, then <script type="math/tex">\textbf{X}_{cam}</script> is transformed by,</p>
+
+<script type="math/tex; mode=display">\textbf{X}_{cam}=\big[R\quad t\big]\textbf{X}
+	 \label{eq:world2cam}
+    \tag{5}</script>
+
+<p>where <strong>R</strong> is  <script type="math/tex">3\times3</script>  rotation matrix and  <strong>t</strong> is  <script type="math/tex">3\times1</script>  translation matrix.</p>
+
+<p>Putting eveything together the formula for general mapping of pinhole camera in world coordinate frame <strong>x</strong> is defined by,</p>
+
+<script type="math/tex; mode=display">\textbf{x}=\textbf{K}\big[\textbf{R}\quad \textbf{t}\big]\textbf{X}
+	 \label{eq:finalpinhole}
+   \tag{6}</script>
+
+<p>So that, the general pinhole camera matrix, <strong>P</strong>, can be represented by,</p>
+
+<p><script type="math/tex">% <![CDATA[
+\textbf{P}=\textbf{K}\big[\textbf{R}\quad \textbf{t}\big]=
+	 \begin{bmatrix}
+	 f_x&0&p_x\\0&f_y&p_y\\0&0&1\\		
+	 \end{bmatrix}
+	 \begin{bmatrix}
+	 	 r_1&r_2&r_3&t_1\\r_4&r_5&r_6&t_2\\r_7&r_8&r_8&t_3\\		
+	 \end{bmatrix}
+	 \label{eq:p}
+   \tag{7} %]]></script>
+and it has 9 degrees of freedom,</p>
+
+<ol>
+  <li>Three for   <strong>K</strong>, namely,  <script type="math/tex">f</script>, <script type="math/tex">p_x</script>, and  <script type="math/tex">p_y</script></li>
+  <li>Three for rotation matrix <strong>R</strong></li>
+  <li>Three for translation <strong>t</strong></li>
+</ol>
+
+<p><strong>Internal camera parameters, K ,</strong> show the internal orientation of the camera and it is fixed.</p>
+
+<p><strong>External parameters, R and t</strong> show camera orientation and position to a world coordinate system.</p>
+
+<h2 id="references">References</h2>
+<p><a name="ref1"></a> Richard Hartley and Andrew Zisserman. Multiple view geometry in computer
+vision. Cambridge university press, 2003.</p>
+
+
+    </div>
+
+
+
+</article>
+
+
+
+
+<hr class="shaded"/>
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+               &copy;2019 HediVision. All rights reserved to beloved mantis shrimp. <br />
+<p><img src="images/company_logo.png" alt="Company logo"/></p>
+                </div>
+            </div>
+</footer>
+
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+</html>
